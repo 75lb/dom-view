@@ -1,0 +1,20 @@
+{
+  "name": "dom-view",
+  "author": "Lloyd Brookes",
+  "version": "0.0.0",
+  "description": "dom-view",
+  "license": "MIT",
+  "repository": "",
+  "main": "./lib/dom-view.js",
+  "keywords": [],
+  "scripts": {
+    "test": "tape test/*.js",
+    "docs": "jsdoc2md lib/*.js > README.md; echo"
+  },
+  "dependencies": {
+    "domify": "^1.3.3"
+  },
+  "devDependencies": {
+    "jsdoc-to-markdown": "^1.1.0"
+  }
+}
