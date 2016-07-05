@@ -1,5 +1,7 @@
 'use strict';
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -111,6 +113,9 @@ var View = function (_EventEmitter) {
       }
       return this;
     }
+  }, {
+    key: 'bindEvent',
+    value: function bindEvent(from, to) {}
   }]);
 
   return View;
@@ -136,9 +141,18 @@ function bindEvents(view) {
 
   if (view.el.getAttribute && view.el.getAttribute('data-event')) dataEvents.push(view.el);
   dataEvents.forEach(function (el) {
-    var eventSplit = el.getAttribute('data-event').split(':');
-    el.addEventListener(eventSplit[0], function (e) {
-      view.emit(eventSplit[1], e);
+    var eventMappings = el.getAttribute('data-event').split(',');
+    eventMappings.forEach(function (mapping) {
+      var _mapping$split = mapping.split(':');
+
+      var _mapping$split2 = _slicedToArray(_mapping$split, 2);
+
+      var from = _mapping$split2[0];
+      var to = _mapping$split2[1];
+
+      el.addEventListener(from, function (e) {
+        view.emit(to, e);
+      });
     });
   });
   return view;
